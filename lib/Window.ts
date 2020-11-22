@@ -1,8 +1,9 @@
-import { craWindowLoadGL, craWindowNew, WindowHandle, WindowNewParams } from "./libcrankshaft";
+import { craWindowDelete, craWindowLoadGL, craWindowNew, WindowHandle, WindowNewParams } from "./libcrankshaft";
 import {promisify} from 'util'
 import Engine from "./Engine";
 
-const windowNew = promisify(craWindowNew)
+const windowNew = promisify(craWindowNew);
+const windowDelete = promisify(craWindowDelete);
 const windowLoadGL = promisify(craWindowLoadGL);
 
 export default class Window {
@@ -17,5 +18,9 @@ export default class Window {
 
     async loadGL() {
       await windowLoadGL(this.handle);
+    }
+
+    async destroy() {
+      await windowDelete(this.handle);
     }
 }

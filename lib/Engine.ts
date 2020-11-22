@@ -1,5 +1,5 @@
 import {promisify} from 'util'
-import { craEngineDelete, craEngineInit, craEngineNew, craEngineStop, craPollEvents } from './libcrankshaft'
+import { craEngineDelete, craEngineInit, craEngineNew, craEngineStop } from './libcrankshaft'
 
 const engineStop = promisify(craEngineStop)
 const engineInit = promisify(craEngineInit)
@@ -17,9 +17,5 @@ export default class Engine {
 
   async stop() {
     return engineStop(this.handle)
-  }
-
-  pollEvents() {
-    return craPollEvents(this.handle)
   }
 }

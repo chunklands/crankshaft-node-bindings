@@ -15,7 +15,7 @@ Module::Module(Napi::Env env)
     main_thread_ = std::this_thread::get_id();
 
     cra_init([](int status, void*) {
-        assert(status == CRA_OK);
+        assert(status == cra_ok);
     },
         nullptr);
 }
@@ -30,7 +30,11 @@ void Module::EnqueueNodeCallback(cra_callback_closure_t closure)
     assert(std::this_thread::get_id() != main_thread_);
 
     tsfn_.NonBlockingCall(closure, [](Napi::Env env, Napi::Function, cra_callback_closure_t closure) {
-        closure->callback(closure->callback_result, closure->callback_status, closure->callback_user_data);
+        if (closure->pre_userland_callback) {
+            closure->pre_userland_callback(closure->pre_userland_callback_data);
+        }
+
+        closure->userland_callback(closure->userland_callback_result, closure->userland_callback_status, closure->userland_callback_userland_data);
         closure->finalizer(closure);
     });
 }

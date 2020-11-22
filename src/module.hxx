@@ -107,10 +107,15 @@ struct node_closure {
         Resolve(Napi::External<T>::New(ref.Env(), result));
     }
 
-    void Resolve(const std::monostate&)
+    void Resolve()
     {
         auto null = ref.Env().Null();
         ref.Call(null, { null });
+    }
+
+    void Resolve(const std::monostate&)
+    {
+        Resolve();
     }
 
     void Reject(Napi::Error error)
@@ -121,7 +126,7 @@ struct node_closure {
 
     void Reject(cra_status status)
     {
-        CRAN_ASSERT(status != CRA_OK);
+        CRAN_ASSERT(status != cra_ok);
 
         std::string message = "crankshaft status error: ";
         message += std::to_string(status);
@@ -132,7 +137,7 @@ struct node_closure {
     template <class T>
     void MaybeResolve(cra_status status, T&& result)
     {
-        if (status != CRA_OK) {
+        if (status != cra_ok) {
             Reject(status);
         } else {
             Resolve(std::forward<T>(result));

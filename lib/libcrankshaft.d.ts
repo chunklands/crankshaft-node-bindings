@@ -2,8 +2,6 @@ declare namespace crankshaft {
   export type DoneCallback<T = void> = (err: Error, result: T) => void
   export type ErrorHandler = (status: number) => void
 
-  export function craPollEvents(engine: EngineHandle): void
-
   const EngineSymbol: unique symbol
   export interface EngineHandle {[EngineSymbol]: typeof EngineSymbol}
   export function craEngineNew(): EngineHandle
@@ -20,6 +18,7 @@ declare namespace crankshaft {
   const WindowSymbol: unique symbol
   export interface WindowHandle {[WindowSymbol]: typeof WindowSymbol}
   export function craWindowNew(engine: EngineHandle, params: WindowNewParams, callback: DoneCallback<WindowHandle>): void
+  export function craWindowDelete(window: WindowHandle, callback: DoneCallback): void
   export function craWindowLoadGL(window: WindowHandle, callback: DoneCallback): void
 }
 

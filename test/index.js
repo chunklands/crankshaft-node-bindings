@@ -17,6 +17,8 @@ const { default: Window } = require('../build/Window');
     setTimeout(resolve, 5000);
   })
 
+  await window.destroy();
+
   await engine.stop();
   engine.destroy();
 })()

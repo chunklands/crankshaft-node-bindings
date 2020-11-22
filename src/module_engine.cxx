@@ -15,10 +15,10 @@ Napi::Value craEngineNew(const Napi::CallbackInfo& info)
     // TODO(daaitch): status
     cra_engine_new(
         &engine,
-        [](cra_callback_closure_t closure, void* user_data) {
-            Module* module = static_cast<Module*>(user_data);
+        [](cra_callback_closure_t closure, void* data) {
+            Module* module = static_cast<Module*>(data);
             module->EnqueueNodeCallback(closure);
-            return CRA_KEEP_DATA;
+            return cra_keep_data;
         },
         module);
 
@@ -40,7 +40,7 @@ void craEngineInit(const Napi::CallbackInfo& info)
         js_engine.Data(),
         [](cra_engine_t engine, cra_status status, void* data) {
             CRAN_ASSERT(engine != nullptr);
-            CRAN_ASSERT(status == CRA_OK);
+            CRAN_ASSERT(status == cra_ok);
             CRAN_ASSERT(data != nullptr);
 
             auto closure = node_closure::Transfer(data);
@@ -76,7 +76,7 @@ void craEngineStop(const Napi::CallbackInfo& info)
         engine.Data(),
         [](cra_engine_t engine, cra_status status, void* data) {
             CRAN_ASSERT(engine != nullptr);
-            CRAN_ASSERT(status == CRA_OK);
+            CRAN_ASSERT(status == cra_ok);
             CRAN_ASSERT(data != nullptr);
 
             auto closure = node_closure::Transfer(data);
