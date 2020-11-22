@@ -13,7 +13,9 @@ const { default: Window } = require('../build/Window');
 
   await window.loadGL();
 
-  engine.pollEvents()
+  await new Promise(resolve => {
+    setTimeout(resolve, 5000);
+  })
 
   await engine.stop();
   engine.destroy();

@@ -48,14 +48,6 @@ std::unique_ptr<node_closure> node_closure::Transfer(void* data)
     return std::unique_ptr<node_closure>(static_cast<node_closure*>(data));
 }
 
-void craPollEvents(const Napi::CallbackInfo& info)
-{
-    CRAN_CHECK_PARAM_ENGINE(info, 0);
-    auto js_engine = CRAN_GET_PARAM_ENGINE(info, 0);
-
-    cra_poll_events(js_engine.Data());
-}
-
 } // crankshaft_node
 
 Napi::Object Init(Napi::Env env, Napi::Object exports)
@@ -70,7 +62,6 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
 
     InitEngine(env, exports, module);
     InitWindow(env, exports, module);
-    CRAN_EXPORTS(craPollEvents);
 
     return exports;
 }
