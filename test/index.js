@@ -14,7 +14,13 @@ const { default: Window } = require('../build/Window');
   await window.loadGL();
 
   window.onClose(async () => {
+    console.log('A')
     await window.destroy();
+    console.log('B')
+    await engine.stop();
+    console.log('C')
+    engine.destroy();
+    console.log('D')
   })
 
   // await window.destroy();

@@ -8,9 +8,8 @@ Napi::Value craEngineNew(const Napi::CallbackInfo& info)
 {
     Napi::HandleScope scope(info.Env());
 
-    Module* module = static_cast<Module*>(info.Data());
-
     cra_engine_t engine = nullptr;
+    Module* module = new Module(info.Env());
 
     // TODO(daaitch): status
     cra_engine_new(
@@ -23,6 +22,8 @@ Napi::Value craEngineNew(const Napi::CallbackInfo& info)
         module);
 
     CRAN_ASSERT(engine != nullptr);
+    cra_engine_set_user_pointer(engine, module);
+
     return Napi::External<icra_engine_s>::New(info.Env(), engine);
 }
 
@@ -45,7 +46,6 @@ void craEngineInit(const Napi::CallbackInfo& info)
 
             auto closure = node_closure::Transfer(data);
             closure->Resolve(engine);
-            std::cout << engine << ": init" << std::endl;
         },
         node_closure::Create(js_callback));
 }
@@ -54,11 +54,21 @@ void craEngineDelete(const Napi::CallbackInfo& info)
 {
     Napi::HandleScope scope(info.Env());
 
+    // TODO(daaitch): check engine_instances, naked pointers are unsafe :(
     CRAN_CHECK_PARAM_ENGINE(info, 0);
-    auto engine = CRAN_GET_PARAM_ENGINE(info, 0);
+    auto js_engine = CRAN_GET_PARAM_ENGINE(info, 0);
+
+    cra_engine_t engine = js_engine.Data();
+
+    Module* module = nullptr;
+    cra_engine_get_user_pointer(engine, (void**)&module);
+    CRAN_ASSERT(module != nullptr);
+
+    delete module;
+    cra_engine_set_user_pointer(engine, nullptr);
 
     // TODO(daaitch): status
-    cra_engine_delete(engine.Data());
+    cra_engine_delete(engine);
 }
 
 void craEngineStop(const Napi::CallbackInfo& info)
@@ -82,12 +92,11 @@ void craEngineStop(const Napi::CallbackInfo& info)
             auto closure = node_closure::Transfer(data);
 
             closure->Resolve(engine);
-            std::cout << engine << ": stopped" << std::endl;
         },
         node_closure::Create(callback));
 }
 
-void InitEngine(Napi::Env env, Napi::Object exports, Module* module)
+void InitEngine(Napi::Env env, Napi::Object exports)
 {
     CRAN_EXPORTS(craEngineNew);
     CRAN_EXPORTS(craEngineInit);

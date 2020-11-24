@@ -32,7 +32,6 @@ void craWindowNew(const Napi::CallbackInfo& info)
 
             auto closure = node_closure::Transfer(data);
 
-            std::cout << window << ": created window" << std::endl;
             closure->Resolve(window);
         },
         node_closure::Create(js_callback));
@@ -103,7 +102,7 @@ void craWindowOnClose(const Napi::CallbackInfo& info)
         node_closure::Create(js_callback));
 }
 
-void InitWindow(Napi::Env env, Napi::Object exports, Module* module)
+void InitWindow(Napi::Env env, Napi::Object exports)
 {
     CRAN_EXPORTS(craWindowNew);
     CRAN_EXPORTS(craWindowDelete);

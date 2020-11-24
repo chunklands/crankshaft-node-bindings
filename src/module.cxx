@@ -22,6 +22,7 @@ Module::Module(Napi::Env env)
 
 Module::~Module()
 {
+    tsfn_.Release();
     cra_destroy();
 }
 
@@ -54,14 +55,8 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
 {
     using namespace crankshaft_node;
 
-    Module* module = env.GetInstanceData<Module>();
-    if (module == nullptr) {
-        module = new Module(env);
-        env.SetInstanceData(module);
-    }
-
-    InitEngine(env, exports, module);
-    InitWindow(env, exports, module);
+    InitEngine(env, exports);
+    InitWindow(env, exports);
 
     return exports;
 }

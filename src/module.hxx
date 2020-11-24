@@ -47,9 +47,9 @@
 #define CRAN_GET_PARAM_OBJECT(info, n) \
     (info)[(n)].As<Napi::Object>()
 
-#define CRAN_EXPORTS(name)                                                \
-    do {                                                                  \
-        exports[#name] = Napi::Function::New(env, (name), #name, module); \
+#define CRAN_EXPORTS(name)                                        \
+    do {                                                          \
+        exports[#name] = Napi::Function::New(env, (name), #name); \
     } while (0)
 
 namespace crankshaft_node {
@@ -156,8 +156,8 @@ struct node_closure {
     Napi::FunctionReference ref;
 };
 
-void InitEngine(Napi::Env env, Napi::Object exports, Module* module);
-void InitWindow(Napi::Env env, Napi::Object exports, Module* module);
+void InitEngine(Napi::Env env, Napi::Object exports);
+void InitWindow(Napi::Env env, Napi::Object exports);
 
 } // namespace crankshaft_node
 
