@@ -74,7 +74,7 @@ public:
     explicit Module(Napi::Env env);
     ~Module();
 
-    void EnqueueNodeCallback(cra_callback_closure_t closure);
+    void EnqueueNodeCallback(cra_ulc_closure_t closure);
 
 private:
     Napi::ThreadSafeFunction tsfn_;
@@ -84,6 +84,10 @@ private:
 struct node_closure {
     static node_closure* Create(Napi::Function callback);
     static std::unique_ptr<node_closure> Transfer(void* data);
+    static node_closure* From(void* data)
+    {
+        return static_cast<node_closure*>(data);
+    }
 
     Napi::Env Env() const
     {

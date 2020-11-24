@@ -25,17 +25,13 @@ Module::~Module()
     cra_destroy();
 }
 
-void Module::EnqueueNodeCallback(cra_callback_closure_t closure)
+void Module::EnqueueNodeCallback(cra_ulc_closure_t closure)
 {
     assert(std::this_thread::get_id() != main_thread_);
 
-    tsfn_.NonBlockingCall(closure, [](Napi::Env env, Napi::Function, cra_callback_closure_t closure) {
-        if (closure->pre_userland_callback) {
-            closure->pre_userland_callback(closure->pre_userland_callback_data);
-        }
-
-        closure->userland_callback(closure->userland_callback_result, closure->userland_callback_status, closure->userland_callback_userland_data);
-        closure->finalizer(closure);
+    tsfn_.NonBlockingCall(closure, [](Napi::Env env, Napi::Function, cra_ulc_closure_t closure) {
+        // TODO(daaitch): check status cra_ok or fatal
+        cra_closure_execute_and_finalize(closure);
     });
 }
 

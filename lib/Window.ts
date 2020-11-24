@@ -1,4 +1,4 @@
-import { craWindowDelete, craWindowLoadGL, craWindowNew, WindowHandle, WindowNewParams } from "./libcrankshaft";
+import { craWindowDelete, craWindowLoadGL, craWindowNew, craWindowOnClose, DoneCallback, WindowHandle, WindowNewParams } from "./libcrankshaft";
 import {promisify} from 'util'
 import Engine from "./Engine";
 
@@ -22,5 +22,9 @@ export default class Window {
 
     async destroy() {
       await windowDelete(this.handle);
+    }
+
+    onClose(callback: () => void) {
+      craWindowOnClose(this.handle, callback);
     }
 }

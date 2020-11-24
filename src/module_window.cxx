@@ -62,7 +62,7 @@ void craWindowLoadGL(const Napi::CallbackInfo& info)
 {
     Napi::HandleScope scope(info.Env());
 
-    CRAN_CHECK_PARAM_ENGINE(info, 0);
+    CRAN_CHECK_PARAM_WINDOW(info, 0);
     auto js_window = CRAN_GET_PARAM_WINDOW(info, 0);
 
     CRAN_CHECK_PARAM_FUNCTION(info, 1);
@@ -81,11 +81,34 @@ void craWindowLoadGL(const Napi::CallbackInfo& info)
         node_closure::Create(js_callback));
 }
 
+void craWindowOnClose(const Napi::CallbackInfo& info)
+{
+    Napi::HandleScope scope(info.Env());
+
+    CRAN_CHECK_PARAM_WINDOW(info, 0);
+    auto js_window = CRAN_GET_PARAM_WINDOW(info, 0);
+
+    CRAN_CHECK_PARAM_FUNCTION(info, 1);
+    auto js_callback = CRAN_GET_PARAM_FUNCTION(info, 1);
+
+    cra_window_on_close(
+        js_window.Data(), [](cra_window_t window, void* data) {
+            CRAN_ASSERT(window != nullptr);
+            CRAN_ASSERT(data != nullptr);
+
+            auto closure = node_closure::From(data);
+
+            closure->Resolve();
+        },
+        node_closure::Create(js_callback));
+}
+
 void InitWindow(Napi::Env env, Napi::Object exports, Module* module)
 {
     CRAN_EXPORTS(craWindowNew);
     CRAN_EXPORTS(craWindowDelete);
     CRAN_EXPORTS(craWindowLoadGL);
+    CRAN_EXPORTS(craWindowOnClose);
 }
 
 }

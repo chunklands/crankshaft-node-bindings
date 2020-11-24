@@ -15,7 +15,7 @@ Napi::Value craEngineNew(const Napi::CallbackInfo& info)
     // TODO(daaitch): status
     cra_engine_new(
         &engine,
-        [](cra_callback_closure_t closure, void* data) {
+        [](cra_ulc_closure_t closure, void* data) {
             Module* module = static_cast<Module*>(data);
             module->EnqueueNodeCallback(closure);
             return cra_keep_data;

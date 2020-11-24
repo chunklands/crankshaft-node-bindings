@@ -15,11 +15,13 @@ declare namespace crankshaft {
     height: number
     title: string
   }
+
   const WindowSymbol: unique symbol
   export interface WindowHandle {[WindowSymbol]: typeof WindowSymbol}
   export function craWindowNew(engine: EngineHandle, params: WindowNewParams, callback: DoneCallback<WindowHandle>): void
   export function craWindowDelete(window: WindowHandle, callback: DoneCallback): void
   export function craWindowLoadGL(window: WindowHandle, callback: DoneCallback): void
+  export function craWindowOnClose(window: WindowHandle, callback: () => void): void
 }
 
 export = crankshaft

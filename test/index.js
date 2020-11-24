@@ -13,12 +13,12 @@ const { default: Window } = require('../build/Window');
 
   await window.loadGL();
 
-  await new Promise(resolve => {
-    setTimeout(resolve, 5000);
+  window.onClose(async () => {
+    await window.destroy();
   })
 
-  await window.destroy();
+  // await window.destroy();
 
-  await engine.stop();
-  engine.destroy();
+  // await engine.stop();
+  // engine.destroy();
 })()
