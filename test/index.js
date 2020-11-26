@@ -1,5 +1,8 @@
 const { default: Engine } = require('../build/Engine');
 const { default: Window } = require('../build/Window');
+const {default: Log} = require('../build/Log');
+
+Log.setLevel(1);
 
 (async () => {
   const engine = new Engine();
@@ -14,17 +17,8 @@ const { default: Window } = require('../build/Window');
   await window.loadGL();
 
   window.onClose(async () => {
-    console.log('A')
     await window.destroy();
-    console.log('B')
     await engine.stop();
-    console.log('C')
     engine.destroy();
-    console.log('D')
   })
-
-  // await window.destroy();
-
-  // await engine.stop();
-  // engine.destroy();
 })()

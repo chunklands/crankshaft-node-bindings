@@ -11,7 +11,7 @@
 
 #define CRAN_CHECK_PARAM(info, n, predicate, what, ...)          \
     do {                                                         \
-        if (!predicate((info)[(n)])) {                           \
+        if (!(predicate)((info)[(n)])) {                         \
             Napi::Error::New(                                    \
                 (info).Env(),                                    \
                 "expected parameter #" #n " to be \"" what "\"") \

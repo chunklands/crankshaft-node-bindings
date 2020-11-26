@@ -2,6 +2,8 @@ declare namespace crankshaft {
   export type DoneCallback<T = void> = (err: Error, result: T) => void
   export type ErrorHandler = (status: number) => void
 
+  export function craLogSetLevel(level: 0|1|2|3|4|5): void
+
   const EngineSymbol: unique symbol
   export interface EngineHandle {[EngineSymbol]: typeof EngineSymbol}
   export function craEngineNew(): EngineHandle

@@ -49,12 +49,33 @@ std::unique_ptr<node_closure> node_closure::Transfer(void* data)
     return std::unique_ptr<node_closure>(static_cast<node_closure*>(data));
 }
 
+void craLogSetLevel(const Napi::CallbackInfo& info)
+{
+    CRAN_CHECK_PARAM(info, 0, ([](Napi::Value value) -> bool {
+        if (!value.IsNumber()) {
+            return false;
+        }
+
+        int32_t level = value.ToNumber().Int32Value();
+        if (level < 0 || level > 5) {
+            return false;
+        }
+
+        return true;
+    }),
+        "log level");
+
+    int result = cra_log_set_level((cra_loglevel)info[0].ToNumber().Int32Value());
+    CRAN_ASSERT(result == cra_ok);
+}
+
 } // crankshaft_node
 
 Napi::Object Init(Napi::Env env, Napi::Object exports)
 {
     using namespace crankshaft_node;
 
+    CRAN_EXPORTS(craLogSetLevel);
     InitEngine(env, exports);
     InitWindow(env, exports);
 
