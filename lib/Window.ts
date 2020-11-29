@@ -1,4 +1,4 @@
-import { craWindowDelete, craWindowLoadGL, craWindowNew, craWindowOnClose, DoneCallback, WindowHandle, WindowNewParams } from "./libcrankshaft";
+import { craWindowDelete, craWindowLoadGL, craWindowNew, craWindowOnClose, WindowHandle, WindowNewParams } from "./libcrankshaft-node-binding";
 import {promisify} from 'util'
 import Engine from "./Engine";
 

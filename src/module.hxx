@@ -158,6 +158,7 @@ struct node_closure {
 
 void InitEngine(Napi::Env env, Napi::Object exports);
 void InitWindow(Napi::Env env, Napi::Object exports);
+void InitRenderpipeline(Napi::Env env, Napi::Object exports);
 
 } // namespace crankshaft_node
 

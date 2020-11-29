@@ -78,6 +78,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
     CRAN_EXPORTS(craLogSetLevel);
     InitEngine(env, exports);
     InitWindow(env, exports);
+    InitRenderpipeline(env, exports);
 
     return exports;
 }

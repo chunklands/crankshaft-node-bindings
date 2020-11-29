@@ -1,5 +1,5 @@
 import {promisify} from 'util'
-import { craEngineDelete, craEngineInit, craEngineNew, craEngineStop } from './libcrankshaft'
+import { craEngineDelete, craEngineInit, craEngineNew, craEngineStop } from './libcrankshaft-node-binding'
 
 const engineStop = promisify(craEngineStop)
 const engineInit = promisify(craEngineInit)

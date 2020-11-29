@@ -9,22 +9,20 @@ if("${CMAKE_CXX_COMPILER_ID}" MATCHES "^(Apple)?Clang$")
 endif()
 
 set(LIBCRANKSHAFT_NODE_BINDING_TARGET crankshaft-node-binding)
-# set(CRANKSHAFT_EXAMPLE) ...
 
-add_subdirectory(deps/crankshaft)
+add_subdirectory(deps/crankshaft ${CMAKE_CURRENT_BINARY_DIR}/crankshaft)
+
+file(GLOB_RECURSE LIBCRANKSHAFT_NODE_BINDING_TARGET_SRC src/*.cxx src/**/*.cxx)
 
 add_library(
   ${LIBCRANKSHAFT_NODE_BINDING_TARGET}
   SHARED
-    src/module.cxx
-    src/module_engine.cxx
-    src/module_window.cxx
+    ${LIBCRANKSHAFT_NODE_BINDING_TARGET_SRC}
 )
 
 set_target_properties(
   ${LIBCRANKSHAFT_NODE_BINDING_TARGET}
   PROPERTIES
-    OUTPUT_NAME crankshaft
     SUFFIX .node
   )
 
@@ -45,10 +43,4 @@ target_link_libraries(
   ${LIBCRANKSHAFT_NODE_BINDING_TARGET}
   LINK_PUBLIC
     crankshaft
-)
-
-configure_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/lib/libcrankshaft.d.ts
-  ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY
 )
