@@ -1,10 +1,10 @@
 import { promisify } from "util";
-import { craRenderpipelineInit, CraRenderpipelineInitParams, WindowHandle } from "./libcrankshaft-node-binding";
+import { craRenderpipelineInit, RenderpipelineInitParams, WindowHandle } from "./libcrankshaft-node-binding";
 
 const renderpipelineInit = promisify(craRenderpipelineInit)
 
 export default class Renderpipeline {
-  static async init(window: WindowHandle, params: CraRenderpipelineInitParams) {
+  static async init(window: WindowHandle, params: RenderpipelineInitParams) {
     return await renderpipelineInit(window, params);
   }
 }

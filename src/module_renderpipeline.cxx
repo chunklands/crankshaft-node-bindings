@@ -29,17 +29,17 @@ void craRenderpipelineInit(const Napi::CallbackInfo& info)
 
     cra_renderpipeline_init(
         js_window.Data(), {
-            .gbuffer_vertex_shader = gbuffer_vertex_shader.c_str(),
-            .gbuffer_fragment_shader = gbuffer_fragment_shader.c_str(),
-            .lighting_vertex_shader = lighting_vertex_shader.c_str(),
-            .lighting_fragment_shader = lighting_fragment_shader.c_str(),
-            .selectblock_vertex_shader = selectblock_vertex_shader.c_str(),
-            .selectblock_fragment_shader = selectblock_fragment_shader.c_str(),
-            .sprite_vertex_shader = sprite_vertex_shader.c_str(),
-            .sprite_fragment_shader = sprite_fragment_shader.c_str(),
-            .text_vertex_shader = text_vertex_shader.c_str(),
-            .text_fragment_shader = text_fragment_shader.c_str(),
-        },
+                              .gbuffer_vertex_shader = gbuffer_vertex_shader.c_str(),
+                              .gbuffer_fragment_shader = gbuffer_fragment_shader.c_str(),
+                              .lighting_vertex_shader = lighting_vertex_shader.c_str(),
+                              .lighting_fragment_shader = lighting_fragment_shader.c_str(),
+                              .selectblock_vertex_shader = selectblock_vertex_shader.c_str(),
+                              .selectblock_fragment_shader = selectblock_fragment_shader.c_str(),
+                              .sprite_vertex_shader = sprite_vertex_shader.c_str(),
+                              .sprite_fragment_shader = sprite_fragment_shader.c_str(),
+                              .text_vertex_shader = text_vertex_shader.c_str(),
+                              .text_fragment_shader = text_fragment_shader.c_str(),
+                          },
         [](cra_window_t window, cra_status status, void* data) {
             CRAN_ASSERT(window != nullptr);
 

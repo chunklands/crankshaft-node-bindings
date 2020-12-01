@@ -9,6 +9,14 @@
 
 #define CRAN_ASSERT(expr) assert(expr)
 
+#define CRAN_CHECK(info, expr, ...)                                                                    \
+    do {                                                                                               \
+        if (!(expr)) {                                                                                 \
+            Napi::Error::New((info).Env(), "expected " #expr " failed.").ThrowAsJavaScriptException(); \
+            return __VA_ARGS__;                                                                        \
+        }                                                                                              \
+    } while (0)
+
 #define CRAN_CHECK_PARAM(info, n, predicate, what, ...)          \
     do {                                                         \
         if (!(predicate)((info)[(n)])) {                         \
@@ -159,6 +167,7 @@ struct node_closure {
 void InitEngine(Napi::Env env, Napi::Object exports);
 void InitWindow(Napi::Env env, Napi::Object exports);
 void InitRenderpipeline(Napi::Env env, Napi::Object exports);
+void InitBlock(Napi::Env env, Napi::Object exports);
 
 } // namespace crankshaft_node
 
