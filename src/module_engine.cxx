@@ -190,6 +190,24 @@ void craEngineBlockNew(const Napi::CallbackInfo& info)
     });
 }
 
+void craEngineBakeTexture(const Napi::CallbackInfo& info)
+{
+    Napi::HandleScope scope(info.Env());
+
+    CRAN_CHECK_PARAM_ENGINE(info, 0);
+    auto js_engine = CRAN_GET_PARAM_ENGINE(info, 0);
+
+    CRAN_CHECK_PARAM_FUNCTION(info, 1);
+    auto js_callback = CRAN_GET_PARAM_FUNCTION(info, 1);
+
+    cra_engine_bake_texture(
+        js_engine.Data(), [](cra_engine_t engine, cra_status status, void* data) {
+            auto closure = node_closure::Transfer(data);
+            closure->MaybeResolve(status, engine);
+        },
+        node_closure::Create(js_callback));
+}
+
 void InitEngine(Napi::Env env, Napi::Object exports)
 {
     CRAN_EXPORTS(craEngineNew);
@@ -197,6 +215,7 @@ void InitEngine(Napi::Env env, Napi::Object exports)
     CRAN_EXPORTS(craEngineDelete);
     CRAN_EXPORTS(craEngineStop);
     CRAN_EXPORTS(craEngineBlockNew);
+    CRAN_EXPORTS(craEngineBakeTexture);
 }
 
 }

@@ -44,6 +44,7 @@ export declare function craEngineDelete(engine: EngineHandle): void
 export declare function craEngineInit(engine: EngineHandle, callback: DoneCallback): void
 export declare function craEngineStop(engine: EngineHandle, callback: DoneCallback): void
 export declare function craEngineBlockNew(engine: EngineHandle, params: BlockNewParams, callback: DoneCallback): void
+export declare function craEngineBakeTexture(engine: EngineHandle, callback: DoneCallback): void
 
 export declare function craWindowNew(engine: EngineHandle, params: WindowNewParams, callback: DoneCallback<WindowHandle>): void
 export declare function craWindowDelete(window: WindowHandle, callback: DoneCallback): void

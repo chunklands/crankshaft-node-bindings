@@ -8,6 +8,7 @@
     "build:ts": "tsc",
     "build:cxx": "cmake-js build --debug",
     "dev": "concurrently npm:dev:*",
+    "predev": "npm link clangformatjs",
     "dev:ts": "tsc -w --preserveWatchOutput",
     "dev:cxx": "nodemon --exec \"npm run build:cxx\" -e h,c,hxx,cxx --watch deps/crankshaft/src --watch deps/crankshaft/include --watch src",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -26,6 +27,7 @@
     "typescript": "^4.0.5"
   },
   "dependencies": {
-    "bindings": "^1.5.0"
+    "bindings": "^1.5.0",
+    "clangformatjs": "file:../clangformatjs"
   }
 }
